@@ -336,16 +336,35 @@
 }
 
 [data-supertext-highlighter-root] .preview mark {
-  background-color: var(--word-highlight-color, rgba(255, 245, 157, 0.65));
+  --highlight-overlay: var(--word-highlight-color, rgba(255, 245, 157, 0.65));
+  background-color: var(--highlight-overlay);
   border-radius: 0.3em;
   padding: 0.05em 0.25em;
   color: inherit;
 }
 
 [data-supertext-highlighter-root] .preview[data-gradient="yes"] mark {
-  color: var(--text-primary);
-  -webkit-background-clip: initial;
-  background-clip: border-box;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-color: transparent;
+  background-image: linear-gradient(
+      var(--highlight-overlay, transparent),
+      var(--highlight-overlay, transparent)
+    ),
+    var(
+      --highlight-gradient,
+      linear-gradient(
+        120deg,
+        var(--gradient-color-1, #ff6b6b),
+        var(--gradient-color-2, #ffa726),
+        var(--gradient-color-3, #ffeb3b)
+      )
+    );
+  background-size: inherit;
+  background-position: inherit;
+  background-origin: border-box;
+  background-clip: border-box, text;
+  -webkit-background-clip: border-box, text;
 }
 
 [data-supertext-highlighter-root] .preview[data-gradient="no"] mark {
