@@ -789,15 +789,19 @@ class SuperText_Widget extends Widget_Base {
         
         // Add data attributes for JavaScript with safety checks
         if (isset($settings['enable_gradient']) && $settings['enable_gradient'] === 'yes') {
+            $gradient_angle = isset($settings['gradient_angle']['size']) ? $settings['gradient_angle']['size'] : 90;
+            $gradient_colors = $this->get_gradient_colors($settings);
+            $gradient_speed = isset($settings['gradient_animation_speed']['size']) ? $settings['gradient_animation_speed']['size'] : 3;
+
             $this->add_render_attribute('wrapper', 'data-gradient', 'true');
             $this->add_render_attribute('wrapper', 'data-gradient-type', isset($settings['gradient_type']) ? $settings['gradient_type'] : 'linear');
-            $this->add_render_attribute('wrapper', 'data-gradient-angle', isset($settings['gradient_angle']['size']) ? $settings['gradient_angle']['size'] : 90);
-            
+            $this->add_render_attribute('wrapper', 'data-gradient-angle', $gradient_angle);
+
             // Handle gradient presets
-            $gradient_colors = $this->get_gradient_colors($settings);
             $this->add_render_attribute('wrapper', 'data-gradient-colors', $gradient_colors);
             $this->add_render_attribute('wrapper', 'data-gradient-animation', isset($settings['gradient_animation']) ? $settings['gradient_animation'] : 'none');
-            $this->add_render_attribute('wrapper', 'data-gradient-speed', isset($settings['gradient_animation_speed']['size']) ? $settings['gradient_animation_speed']['size'] : 3);
+            $this->add_render_attribute('wrapper', 'data-gradient-speed', $gradient_speed);
+            $this->add_render_attribute('wrapper', 'style', sprintf('--gradient-angle: %sdeg; --gradient-colors: %s; --gradient-speed: %ss;', $gradient_angle, esc_attr($gradient_colors), $gradient_speed));
         }
         
         if (isset($settings['enable_highlight']) && $settings['enable_highlight'] === 'yes' && !empty($settings['highlight_text'])) {
@@ -894,12 +898,17 @@ class SuperText_Widget extends Widget_Base {
         view.addRenderAttribute('content', 'class', 'supertext-content');
         
         if (settings.enable_gradient === 'yes') {
+            const gradientAngle = settings.gradient_angle && settings.gradient_angle.size ? settings.gradient_angle.size : 90;
+            const gradientColors = settings.gradient_colors || '#ff6b6b, #4ecdc4';
+            const gradientSpeed = settings.gradient_animation_speed && settings.gradient_animation_speed.size ? settings.gradient_animation_speed.size : 3;
+
             view.addRenderAttribute('wrapper', 'data-gradient', 'true');
             view.addRenderAttribute('wrapper', 'data-gradient-type', settings.gradient_type);
-            view.addRenderAttribute('wrapper', 'data-gradient-angle', settings.gradient_angle.size);
-            view.addRenderAttribute('wrapper', 'data-gradient-colors', settings.gradient_colors);
+            view.addRenderAttribute('wrapper', 'data-gradient-angle', gradientAngle);
+            view.addRenderAttribute('wrapper', 'data-gradient-colors', gradientColors);
             view.addRenderAttribute('wrapper', 'data-gradient-animation', settings.gradient_animation);
-            view.addRenderAttribute('wrapper', 'data-gradient-speed', settings.gradient_animation_speed.size);
+            view.addRenderAttribute('wrapper', 'data-gradient-speed', gradientSpeed);
+            view.addRenderAttribute('wrapper', 'style', `--gradient-angle: ${gradientAngle}deg; --gradient-colors: ${gradientColors}; --gradient-speed: ${gradientSpeed}s;`);
         }
         
         if (settings.enable_highlight === 'yes' && settings.highlight_text) {
