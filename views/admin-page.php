@@ -38,6 +38,17 @@
         When enabled the text is filled with a multi-stop gradient instead of a solid color.
       </p>
 
+      <label class="field" for="gradientScope">
+        <span class="field__label">Gradient Scope</span>
+        <select id="gradientScope" class="field__select">
+          <option value="all" selected>Apply to entire text</option>
+          <option value="highlights">Apply to highlighted words only</option>
+        </select>
+        <small class="field__help">
+          Choose whether the gradient covers the whole sentence or only the highlighted words.
+        </small>
+      </label>
+
       <div class="preset-picker" role="list">
         <button class="preset" type="button" data-preset="sunset">Sunset</button>
         <button class="preset" type="button" data-preset="ocean">Ocean</button>
