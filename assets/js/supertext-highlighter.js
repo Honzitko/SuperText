@@ -96,6 +96,7 @@
     const gradientToggle = query('#gradientToggle');
     const gradientType = query('#gradientType');
     const gradientAngle = query('#gradientAngle');
+    const gradientScope = query('#gradientScope');
     const angleField = query('[data-angle-field]');
     const colorStop1 = query('#colorStop1');
     const colorStop2 = query('#colorStop2');
@@ -117,6 +118,7 @@
       !gradientToggle ||
       !gradientType ||
       !gradientAngle ||
+      !gradientScope ||
       !angleField ||
       !colorStop1 ||
       !colorStop2 ||
@@ -179,6 +181,7 @@
       const gradientEnabled = gradientToggle.checked;
 
       preview.dataset.gradient = gradientEnabled ? 'yes' : 'no';
+      preview.dataset.gradientScope = gradientScope.value || 'all';
 
       if (gradientEnabled && gradient) {
         preview.style.setProperty('--highlight-gradient', gradient);
@@ -274,6 +277,7 @@
         updateGradient();
       });
       gradientAngle.addEventListener('input', updateGradient);
+      gradientScope.addEventListener('change', updateGradient);
       colorStop1.addEventListener('input', updateGradient);
       colorStop2.addEventListener('input', updateGradient);
       colorStop3.addEventListener('input', updateGradient);
